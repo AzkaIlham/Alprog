@@ -127,7 +127,7 @@ void pemesanan(Movie movies[], int jumlah_movie) {
     printf("\n\t ID \t| Title \t\t| Genre \t| Stock \t| Price weekday | price weekend");
     printf("\n\t-----------------------------------------------------------------------------------------------------");
     for (i = 0; i < jumlah_movie; i++) {
-        printf("\n\t %-2d \t| %-20s \t| %-10s \t| %-7d \t| %-12.2lf \t| %-12.2lf", movies[i].id, movies[i].title, movies[i].genre, movies[i].stock, movies[i].weekday_price, movies[i].weekend_price); // Mengubah tanda menjadi %lf
+        printf("\n\t %-2d \t| %-20s \t| %-10s \t| %-7d \t| %-12.2lf \t| %-12.2lf", movies[i].id, movies[i].title, movies[i].genre, movies[i].stock, movies[i].weekday_price, movies[i].weekend_price);
     }
     printf("\n\t Silahkan pilih ID film yang akan dipesan: ");
     scanf("%d", &id_movie);
@@ -148,23 +148,23 @@ void pemesanan(Movie movies[], int jumlah_movie) {
                 price = movies[i].weekday_price;
                 break;
         }
-        printf("\n\t Film yang Anda pilih adalah '%s'. Harga tiketnya adalah Rp %.2lf", movies[i].title, price); // Mengubah tanda menjadi %lf
+        printf("\n\t Film yang Anda pilih adalah '%s'. Harga tiketnya adalah Rp %.2lf", movies[i].title, price);
         printf("\n\t Berapa jumlah tiket yang ingin Anda pesan: ");
         scanf("%d", &jumlah_tiket);
         if (jumlah_tiket > movies[i].stock) {
             printf("\n\t Maaf, stock tiket yang tersedia adalah %d", movies[i].stock);
         } else {
             movies[i].stock -= jumlah_tiket;
-            pembayaran(movies[i], jumlah_tiket, price); // Mengganti &movies[i] dengan movies[i]
+            pembayaran(movies[i], jumlah_tiket, price);
         }
     } else {
         printf("\n\t Maaf, ID film yang Anda masukkan tidak valid! ");
     }
 }
 
-void pembayaran(Movie movie, int jumlah_tiket, double price) { // Mengganti const Movie *movie dengan Movie movie
-    double total_harga = price * jumlah_tiket; // Mengubah tipe data menjadi double
-    double uang_bayar; // Mengubah tipe data menjadi double
+void pembayaran(Movie movie, int jumlah_tiket, double price) {
+    double total_harga = price * jumlah_tiket;
+    double uang_bayar;
     system("cls");
     printf("\n\t=============================================");
     printf("\n\t||            PEMBAYARAN TIKET             ||");
@@ -172,17 +172,17 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) { // Mengganti cons
     printf("\n\t Film yang anda pesan: %s", movie.title);
     printf("\n\t Jumlah tiket yang anda pesan: %d", jumlah_tiket);
     printf("\n\t---------------------------------------------");
-    printf("\n\t Total harga pembelian tiket adalah Rp %.2lf", total_harga); // Mengubah tanda menjadi %lf
+    printf("\n\t Total harga pembelian tiket adalah Rp %.2lf", total_harga);
     printf("\n\t---------------------------------------------");
     printf("\n\t Silahkan masukkan jumlah uang yang akan Anda bayarkan: ");
-    scanf("%lf", &uang_bayar); // Mengubah tanda menjadi %lf
+    scanf("%lf", &uang_bayar);
 
     if (uang_bayar < total_harga) {
         printf("\n\t Maaf, uang yang Anda masukkan tidak cukup untuk membayar tiket! ");
     } else {
-        double kembalian = uang_bayar - total_harga; // Mengubah tipe data menjadi double
+        double kembalian = uang_bayar - total_harga; 
         printf("\n\t Terima kasih atas pemesanan Anda! Tiket yang Anda pesan telah berhasil dipesan. ");
-        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian); // Mengubah tanda menjadi %lf
+        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian); 
     }
 }
 
@@ -191,9 +191,9 @@ void keluar() {
     printf("\n\t Selamat Datang Kembali! ");
     getchar();
     exit(0);
-} // Menutup kurung kurawal
+} 
 
 int main() {
-    intro(); // Menambahkan tanda kurung
+    intro();
     return 0;
 }
