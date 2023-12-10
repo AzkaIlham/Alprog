@@ -117,7 +117,7 @@ void romantis(){
 void pemesanan(Movie movies[], int jumlah_movie) {
     int id_movie, jumlah_tiket, i;
     int cari = 0;
-    double price; // Mengubah tipe data menjadi double
+    double price; 
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
     system("cls");
