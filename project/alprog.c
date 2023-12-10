@@ -64,14 +64,14 @@ void menu_customer(){
 void genreFilm(){
     int pil;
     system("cls");
-    printf("\n\t=========================");
-    printf("\n\t||     Genre Film      ||");
-    printf("\n\t=========================");
-    printf("\n\t||   1. Horor          ||");
-    printf("\n\t||   2. Komedi         ||");
-    printf("\n\t||   3. Romantis       ||");
-    printf("\n\t=========================");
-    printf("\n\t Masukkan Pilihan Genre Film Anda: ");
+    printf("\n\t\t=========================");
+    printf("\n\t\t||     Genre Film      ||");
+    printf("\n\t\t=========================");
+    printf("\n\t\t||   1. Horor          ||");
+    printf("\n\t\t||   2. Komedi         ||");
+    printf("\n\t\t||   3. Romantis       ||");
+    printf("\n\t\t=========================");
+    printf("\n\t\t Masukkan Pilihan Genre Film Anda: ");
     scanf("%d", &pil);
     if(pil==1){
         horor();
@@ -124,7 +124,7 @@ void pemesanan(Movie movies[], int jumlah_movie) {
     printf("\n\t=====================================================================================================");
     printf("\n\t||                                Daftar Film yang Tayang                                        ||");
     printf("\n\t=====================================================================================================");
-    printf("\n\t ID \t| Title \t\t| Genre \t| Stock \t| Price weekday | price weekend");
+    printf("\n\t ID \t| Title \t\t| Genre \t| Stock \t| Price Weekday | Price Weekend");
     printf("\n\t-----------------------------------------------------------------------------------------------------");
     for (i = 0; i < jumlah_movie; i++) {
         printf("\n\t %-2d \t| %-20s \t| %-10s \t| %-7d \t| %-12.2lf \t| %-12.2lf", movies[i].id, movies[i].title, movies[i].genre, movies[i].stock, movies[i].weekday_price, movies[i].weekend_price);
