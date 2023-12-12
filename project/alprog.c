@@ -12,6 +12,8 @@ void pemesanan();
 void pembayaran();
 void keluar();
 
+int hari;
+
 typedef struct{
     int id;
     char title[50];
@@ -30,7 +32,7 @@ void intro(){
     printf("\n\t||    2. Anthony Wisnu Jati     (2305551138)    ||");
     printf("\n\t||    3. Azka Ilham Ramadhani   (2305551171)    ||");
     printf("\n\t==================================================");
-    printf("\n\tEnter untuk melanjutkan..");
+    printf("\n\tEnter untuk melanjutkan...");
     while (getchar() != '\n')
         ;
     menu_customer();
@@ -45,8 +47,8 @@ void menu_customer(){
     printf("\n\t===============================================");
     printf("\n\t||               Tampilan Menu               ||");
     printf("\n\t===============================================");
-    printf("\n\t||  1. Menu Pemesanan Tiket                 ||");
-    printf("\n\t||  2. Exit                                 ||");
+    printf("\n\t||  1. Menu Pemesanan Tiket                  ||");
+    printf("\n\t||  2. Exit                                  ||");
     printf("\n\t===============================================");
     printf("\n\t Masukkan Pilihan Anda: ");
     scanf("%d", &menu);
@@ -115,14 +117,16 @@ void romantis(){
 }
 
 void pemesanan(Movie movies[], int jumlah_movie) {
-    int id_movie, jumlah_tiket, i;
+    int id_movie, jumlah_tiket, hari, i;
     int cari = 0;
     double price; 
-    time_t t = time(NULL);
-    struct tm *tm = localtime(&t);
+    struct tm *local;
+    time_t now;
+    now = time(NULL);
+    local = localtime(&now);
     system("cls");
     printf("\n\t=====================================================================================================");
-    printf("\n\t||                                Daftar Film yang Tayang                                        ||");
+    printf("\n\t||                                Daftar Film yang Tayang                                          ||");
     printf("\n\t=====================================================================================================");
     printf("\n\t ID \t| Title \t\t| Genre \t| Stock \t| Price Weekday | Price Weekend");
     printf("\n\t-----------------------------------------------------------------------------------------------------");
@@ -138,8 +142,26 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         }
     }
 
+    hari = local->tm_wday;
+    if(hari==0){
+        printf("\n\t Hari ini minggu");
+    }else if(hari==1){
+        printf("\n\t Hari ini senin");
+    }else if(hari==2){
+        printf("\n\t Hari ini selasa");
+    }else if(hari==3){
+        printf("\n\t Hari ini rabu");
+    }else if(hari==4){
+        printf("\n\t Hari ini kamis");
+    }else if(hari==5){
+        printf("\n\t Hari ini jumat");
+    }else {
+        printf("\n\t Hari ini sabtu");
+    } 
+    printf(" adalah hari ke %d", local->tm_wday);
+
     if (cari == 1) {
-        switch (tm->tm_wday) {
+        switch (hari) {
             case 0:
             case 6:
                 price = movies[i].weekend_price;
