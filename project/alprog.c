@@ -142,23 +142,23 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         }
     }
 
-    hari = local->tm_wday;
+    hari = local->tm_mday;
     if(hari==0){
-        printf("\n\t Hari minggu");
+        printf("\n\t Hari Minggu");
     }else if(hari==1){
-        printf("\n\t Hari senin");
+        printf("\n\t Hari Senin");
     }else if(hari==2){
-        printf("\n\t Hari selasa");
+        printf("\n\t Hari Selasa");
     }else if(hari==3){
-        printf("\n\t Hari rabu");
+        printf("\n\t Hari Rabu");
     }else if(hari==4){
-        printf("\n\t Hari kamis");
+        printf("\n\t Hari Kamis");
     }else if(hari==5){
-        printf("\n\t Hari jumat");
+        printf("\n\t Hari Jumat");
     }else {
-        printf("\n\t Hari sabtu");
+        printf("\n\t Hari Sabtu");
     } 
-    printf(" adalah hari ke %d", local->tm_wday);
+    printf(" %d/%d/%d", local->tm_mday, local->tm_mon+1, local->tm_year+1900);
 
     if (cari == 1) {
         switch (hari) {
