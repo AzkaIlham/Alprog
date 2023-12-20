@@ -3,6 +3,13 @@
 #include <string.h>
 #include <time.h>
 
+void menu();
+void login_admin();
+void menu_admin();
+void riwayat_transaksi();
+void data_customer();
+void regis_customer();
+void login_customer();
 void menu_customer();
 void genreFilm();
 void horor();
@@ -13,6 +20,14 @@ void pembayaran();
 void keluar();
 
 int hari;
+
+struct customer{
+	char nama_cust[50];
+	int pin_cust;
+};
+
+struct customer registrasi;
+struct customer login;
 
 typedef struct{
     int id;
@@ -35,7 +50,159 @@ void intro(){
     printf("\n\tEnter untuk melanjutkan...");
     while (getchar() != '\n')
         ;
-    menu_customer();
+    menu();
+}
+
+void menu(){
+    int pil;
+
+    system("cls");
+    printf("\n\t==================================================");
+    printf("\n\t||                Pilihan Masuk                 ||");
+    printf("\n\t==================================================");
+    printf("\n\t||       1. Masuk Sebagai Admin                 ||");
+    printf("\n\t||       2. Regis Sebagai Pelanggan             ||");
+    printf("\n\t||       3. Login Sebagai Pelanggan             ||");
+    printf("\n\t||       4. Exit                                ||");
+    printf("\n\t==================================================");
+    printf("\n\t Masukkan Pilihan Anda: ");
+    scanf("%d", &pil);
+    if(pil==1){
+        login_admin();
+    }
+    else if(pil==2){
+        regis_customer();
+    }
+    else if(pil==2){
+        login_customer();
+    }
+    else if(pil==3){
+        keluar();
+    }
+    else{
+        printf("Error\n");
+    }
+}
+
+void login_admin(){
+    char username [15];
+	char password [15];
+
+	printf("\nMasukkan username: ");
+	scanf("%s", &username);
+	printf("\nMasukkan password: ");
+	fflush(stdin);
+	scanf("%s", &password);
+    if ((strcmp(username, "admin") == 0) && (strcmp(password, "123") ==0)){
+        getchar();
+        printf("\n\n\tTekan Enter untuk melanjutkan...");
+        getchar();
+        system ("cls");
+        menu_admin();
+	}else {
+		printf("\nPassword atau Username Salah!\n");
+        getchar();
+        printf("\nTEKAN ENTER UNTUK KEMBALI");
+        getchar();
+        system ("cls");
+        menu();
+	}
+}
+
+void menu_admin(){
+    int pil;
+	while (pil!=4){
+	system("cls");
+	printf("\n\t==============================================================");
+    printf("\n\t||                 M E T R O P O L E   X X I                ||");
+    printf("\n\t||``````````````````````````````````````````````````````````||");
+    printf("\n\t||                   Tampilan Menu Admin                    ||");
+    printf("\n\t||==========================================================||");
+    printf("\n\t||  [1] Menampilkan riwayat transaksi                       ||");
+    printf("\n\t||----------------------------------------------------------||");
+    printf("\n\t||  [2] Menampilkan data customer                           ||");
+    printf("\n\t||----------------------------------------------------------||");
+    printf("\n\t||  [3] Log out                                             ||");
+    printf("\n\t==============================================================");
+    printf("\n\tMasukkan pilihan Anda [1][2][3] : ");
+    scanf("%d", &pil);
+    switch(pil){
+    	case 1:
+    		{
+    			//riwayat_transaksi();
+    			break;
+			}
+		case 2:
+			{
+				//data_customer();
+				break;
+			}
+			case 3:{
+                menu();
+                break;
+			}
+		default:
+			{
+				printf("Menu tidak tersedia!");
+				break;
+			}
+	}
+
+
+	}
+}
+
+void regis_customer(){
+    int i;
+    struct customer cust01;
+	FILE *regis = fopen("DataCustomer.txt", "a+");
+
+	printf("\n\t=========================::::::::::::::::=====================\n");
+    printf("\n\t||                    -- MENU REGISTRASI --                 ||\n");
+    printf("\n\t=========================::::::::::::::::=====================\n");
+    printf("\n\tMasukkan username : ");
+    scanf("%d", registrasi.nama_cust);
+	fflush(stdin);
+
+	//Mengecek data customer dalam file DataCustomer.txt
+	while (!feof(regis)){
+		//membaca data customer dalam file DataCustomer.txt
+		fscanf(regis, "%[^#]#%d\n", &cust01.nama_cust, &cust01.pin_cust);
+		fflush(stdin);
+
+		//mengecek apakah username yang diinputkan sudah pernah terdaftar sebelumnya. Apabila sudah, customer akan diminta menginputkan username baru.
+		if (strcmp(cust01.nama_cust, registrasi.nama_cust)==0){
+            printf("\n\t -- username sudah terdaftar. Coba gunakan username lainnya -- ");
+            printf("\n\t==============================================================\n");
+            fclose(regis);
+			printf("\n\n\tTekan Enter untuk melanjutkan...");
+            getchar();
+			regis_customer();
+			break;
+		}
+	}
+	//ketika username yang diinputkan belum pernah terdaftar, maka program akan lanjut meminta inputan PIN
+    fflush(stdin);
+    printf("\n\tMasukkan PIN : ");
+	while(scanf("%d", &registrasi.pin_cust)==0 || registrasi.pin_cust < 0){
+        printf("\t--------------------------------------------------------------");
+        printf("\n\tAngka yang Anda inputkan salah!");
+        printf("\n\tMohon inputkan angka yang benar...");
+        printf("\n\t--------------------------------------------------------------");
+        printf("\n\tMasukkan PIN : ");
+        while((getchar())!='\n');
+    }
+    fprintf(regis, "%s#%d\n", registrasi.nama_cust, registrasi.pin_cust);
+    fclose(regis);
+
+    printf("\n\t\tRegistrasi dengan username %s berhasil!", registrasi.nama_cust);
+    printf("\n\t --------------------------------------------------------------\n");
+    close();
+    login_customer();
+}
+
+void login_customer(){
+
 }
 
 void menu_customer(){
@@ -119,7 +286,7 @@ void romantis(){
 void pemesanan(Movie movies[], int jumlah_movie) {
     int id_movie, jumlah_tiket, hari, i;
     int cari = 0;
-    double price; 
+    double price;
     struct tm *local;
     time_t now;
     now = time(NULL);
@@ -157,7 +324,7 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         printf("\n\t Hari jumat");
     }else {
         printf("\n\t Hari sabtu");
-    } 
+    }
     printf(" adalah hari ke %d/%d/%d", local->tm_mday, local->tm_mon+1, local->tm_year+1900);
 
     if (cari == 1) {
@@ -202,9 +369,9 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     if (uang_bayar < total_harga) {
         printf("\n\t Maaf, uang yang Anda masukkan tidak cukup untuk membayar tiket! ");
     } else {
-        double kembalian = uang_bayar - total_harga; 
+        double kembalian = uang_bayar - total_harga;
         printf("\n\t Terima kasih atas pemesanan Anda! Tiket yang Anda pesan telah berhasil dipesan. ");
-        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian); 
+        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian);
     }
 }
 
@@ -213,7 +380,7 @@ void keluar() {
     printf("\n\t Selamat Datang Kembali! ");
     getchar();
     exit(0);
-} 
+}
 
 int main() {
     intro();
