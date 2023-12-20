@@ -3,6 +3,11 @@
 #include <string.h>
 #include <time.h>
 
+void menu();
+void login_admin();
+void menu_admin();
+void riwayat_transaksi();
+void data_customer();
 void menu_customer();
 void genreFilm();
 void horor();
@@ -35,7 +40,103 @@ void intro(){
     printf("\n\tEnter untuk melanjutkan...");
     while (getchar() != '\n')
         ;
-    menu_customer();
+    menu();
+}
+
+void menu(){
+    int pil;
+
+    system("cls");
+    printf("\n\t==================================================");
+    printf("\n\t||                Pilihan Masuk                 ||");
+    printf("\n\t==================================================");
+    printf("\n\t||       1. Masuk Sebagai Admin                 ||");
+    printf("\n\t||       2. Masuk Sebagai Pelanggan             ||");
+    printf("\n\t||       3. Exit                                ||");
+    printf("\n\t==================================================");
+    printf("\n\t Masukkan Pilihan Anda: ");
+    scanf("%d", &pil);
+    if(pil==1){
+        login_admin();
+    }
+    else if(pil==2){
+        menu_customer();
+    }
+    else if(pil==2){
+        keluar();
+    }
+    else{
+        printf("Error\n");
+    }
+}
+
+
+void login_admin(){
+    char username [15];
+	char password [15];
+
+	printf("\nMasukkan username: ");
+	scanf("%s", &username);
+	printf("\nMasukkan password: ");
+	fflush(stdin);
+	scanf("%s", &password);
+    if ((strcmp(username, "admin") == 0) && (strcmp(password, "123") ==0)){
+        getchar();
+        printf("\n\n\tTekan Enter untuk melanjutkan...");
+        getchar();
+        system ("cls");
+        menu_admin();
+	}else {
+		printf("\nPassword atau Username Salah!\n");
+        getchar();
+        printf("\nTEKAN ENTER UNTUK KEMBALI");
+        getchar();
+        system ("cls");
+        menu();
+	}
+}
+
+void menu_admin(){
+    int pil;
+	while (pil!=4){
+	system("cls");
+	printf("\n\t==============================================================");
+    printf("\n\t||                 M E T R O P O L E   X X I                ||");
+    printf("\n\t||``````````````````````````````````````````````````````````||");
+    printf("\n\t||                   Tampilan Menu Admin                    ||");
+    printf("\n\t||==========================================================||");
+    printf("\n\t||  [1] Menampilkan riwayat transaksi                       ||");
+    printf("\n\t||----------------------------------------------------------||");
+    printf("\n\t||  [2] Menampilkan data customer                           ||");
+    printf("\n\t||----------------------------------------------------------||");
+    printf("\n\t||  [3] Log out                                             ||");
+    printf("\n\t==============================================================");
+    printf("\n\tMasukkan pilihan Anda [1][2][3] : ");
+    scanf("%d", &pil);
+    switch(pil){
+    	case 1:
+    		{
+    			//riwayat_transaksi();
+    			break;
+			}
+		case 2:
+			{
+				//data_customer();
+				break;
+			}
+			case 3:{
+                menu();
+                break;
+			}
+		default:
+			{
+				printf("Menu tidak tersedia!");
+				break;
+			}
+	}
+
+
+	}
 }
 
 void menu_customer(){
@@ -119,7 +220,7 @@ void romantis(){
 void pemesanan(Movie movies[], int jumlah_movie) {
     int id_movie, jumlah_tiket, hari, i;
     int cari = 0;
-    double price; 
+    double price;
     struct tm *local;
     time_t now;
     now = time(NULL);
@@ -142,23 +243,23 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         }
     }
 
-    hari = local->tm_wday;
+    hari = local->tm_mday;
     if(hari==0){
-        printf("\n\t Hari minggu");
+        printf("\n\t Hari Minggu");
     }else if(hari==1){
-        printf("\n\t Hari senin");
+        printf("\n\t Hari Senin");
     }else if(hari==2){
-        printf("\n\t Hari selasa");
+        printf("\n\t Hari Selasa");
     }else if(hari==3){
-        printf("\n\t Hari rabu");
+        printf("\n\t Hari Rabu");
     }else if(hari==4){
-        printf("\n\t Hari kamis");
+        printf("\n\t Hari Kamis");
     }else if(hari==5){
-        printf("\n\t Hari jumat");
+        printf("\n\t Hari Jumat");
     }else {
-        printf("\n\t Hari sabtu");
-    } 
-    printf(" adalah hari ke %d/%d/%d", local->tm_mday, local->tm_mon+1, local->tm_year+1900);
+        printf("\n\t Hari Sabtu");
+    }
+    printf(" %d/%d/%d", local->tm_mday, local->tm_mon+1, local->tm_year+1900);
 
     if (cari == 1) {
         switch (hari) {
@@ -202,9 +303,9 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     if (uang_bayar < total_harga) {
         printf("\n\t Maaf, uang yang Anda masukkan tidak cukup untuk membayar tiket! ");
     } else {
-        double kembalian = uang_bayar - total_harga; 
+        double kembalian = uang_bayar - total_harga;
         printf("\n\t Terima kasih atas pemesanan Anda! Tiket yang Anda pesan telah berhasil dipesan. ");
-        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian); 
+        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian);
     }
 }
 
@@ -213,7 +314,7 @@ void keluar() {
     printf("\n\t Selamat Datang Kembali! ");
     getchar();
     exit(0);
-} 
+}
 
 int main() {
     intro();
