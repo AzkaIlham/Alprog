@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
+
+//variabel global untuk fungsi pemesanan
+float jam1[6]= {0,12.00, 14.00, 16.00, 20.00, 22.00};
+float jam2[6]= {0,12.30, 14.30, 16.30, 20.30, 22.30};
+float jamtayang;
+int hari, film, h, i, angka_kursi[50];
+char seat[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+char huruf_kursi;
 
 void menu();
 void login_admin();
@@ -19,10 +28,12 @@ void pemesanan();
 void pembayaran();
 void keluar();
 
-float jam1[6]= {0,12.00, 14.00, 16.00, 20.00, 22.00};
-float jam2[6]= {0,12.30, 14.30, 16.30, 20.30, 22.30};
-float jamtayang;
-int hari;
+void close(){
+    fflush(stdin);
+    printf("\n\tTekan Enter untuk Melanjutkan...");
+    getchar();
+    system("cls");
+}
 
 struct customer{
 	char nama_cust[50];
@@ -41,7 +52,7 @@ typedef struct{
     float weekend_price;
 }Movie;
 
-void intro(){
+void main(){
     system("cls");
     printf("\n\t==================================================");
     printf("\n\t||                Nama Kelompok                 ||");
@@ -55,6 +66,7 @@ void intro(){
     menu();
 }
 
+//menu awal program
 void menu(){
     int pil;
 
@@ -63,9 +75,8 @@ void menu(){
     printf("\n\t||                Pilihan Masuk                 ||");
     printf("\n\t==================================================");
     printf("\n\t||       1. Masuk Sebagai Admin                 ||");
-    printf("\n\t||       2. Regis Sebagai Pelanggan             ||");
-    printf("\n\t||       3. Login Sebagai Pelanggan             ||");
-    printf("\n\t||       4. Exit                                ||");
+    printf("\n\t||       2. Menu Pelanggan                      ||");
+    printf("\n\t||       3. Exit                                ||");
     printf("\n\t==================================================");
     printf("\n\t Masukkan Pilihan Anda: ");
     scanf("%d", &pil);
@@ -73,12 +84,9 @@ void menu(){
         login_admin();
     }
     else if(pil==2){
-        regis_customer();
+        menu_customer();
     }
     else if(pil==3){
-        login_customer();
-    }
-    else if(pil==4){
         keluar();
     }
     else{
@@ -86,8 +94,10 @@ void menu(){
     }
 }
 
+
+//tampilan log in admin
 void login_admin(){
-    char username [15];
+	char username [15];
 	char password [15];
 
 	printf("\nMasukkan username: ");
@@ -111,6 +121,8 @@ void login_admin(){
 	}
 }
 
+
+//tampilan menu admin
 void menu_admin(){
     int pil;
 	while (pil!=4){
@@ -145,6 +157,37 @@ void menu_admin(){
 	}
 }
 
+
+void menu_customer(){//Menampilkan pilihan menu awal yang dapat dipilih customer untuk masuk ke program
+    int menu;
+    printf("\n\t==============================================================");
+    printf("\n\t||                        SELAMAT DATANG                    ||");
+    printf("\n\t||==========================================================||");
+    printf("\n\t||  [1] Registrasi                                          ||");
+    printf("\n\t||----------------------------------------------------------||");
+    printf("\n\t||  [2] Login                                               ||");
+    printf("\n\t||----------------------------------------------------------||");
+    printf("\n\t||  [3] Exit                                                ||");
+    printf("\n\t==============================================================");
+    printf("\n\tMasukkan Pilihan Anda : ");
+	while(scanf("%d", &menu)==0 || menu < 1 || menu > 3){
+        printf("\t--------------------------------------------------------------");
+        printf("\n\tAngka yang Anda inputkan salah!");
+        printf("\n\tMohon inputkan pilihan yang benar...");
+        printf("\n\t--------------------------------------------------------------");
+        printf("\n\tMasukkan pilihan Anda: ");
+        while((getchar())!='\n');
+    }
+	close();
+    if (menu==1){
+        regis_customer(); // menuju bagian registrasi (apabila customer belum terdaftar)
+    }else if(menu==2){
+        login_customer(); // menuju bagian login customer(apabila customer sudah pernah mendaftarkan PIN dan usernamenya)
+    }else{
+        main(); //kembali ke menu awal
+    }
+}
+
 void regis_customer(){
     int i;
     struct customer cust01;
@@ -154,7 +197,7 @@ void regis_customer(){
     printf("\n\t||                    -- MENU REGISTRASI --                 ||\n");
     printf("\n\t=========================::::::::::::::::=====================\n");
     printf("\n\tMasukkan username : ");
-    scanf("%d[^\n]", registrasi.nama_cust);
+    scanf("%[^\n]", registrasi.nama_cust);
 	fflush(stdin);
 
 	//Mengecek data customer dalam file DataCustomer.txt
@@ -168,8 +211,7 @@ void regis_customer(){
             printf("\n\t -- username sudah terdaftar. Coba gunakan username lainnya -- ");
             printf("\n\t==============================================================\n");
             fclose(regis);
-			printf("\n\n\tTekan Enter untuk melanjutkan...");
-            getchar();
+			close();
 			regis_customer();
 			break;
 		}
@@ -190,11 +232,12 @@ void regis_customer(){
 
     printf("\n\t\tRegistrasi dengan username %s berhasil!", registrasi.nama_cust);
     printf("\n\t --------------------------------------------------------------\n");
-    login_customer();
+    close();
+    login_customer(); //setelah registrasi berhasil, customer akan diminta untuk login
 }
 
 void login_customer(){
-    int i;
+	int i;
 	int kode;
 	struct customer cust01;
 	FILE *regis = fopen("DataCustomer.txt", "a+");
@@ -228,17 +271,22 @@ void login_customer(){
 			printf("\n\t==============================================================");
 			strcpy(login.nama_cust, cust01.nama_cust);
 			fclose(regis);
-			menu_customer();
+			close();
+			menu_pesan();
 			break;
 		}
-		else{
-            printf("Anda Belum Terdaftar\n\t");
-            login_customer();
-		}
 	}
+	fclose(regis);
+    //Jika PIN yang diinputkan belum terdaftar, program akan kembali ke fungsi menu_customer()
+    printf("\n\t------------------- PIN tidak Terdaftar ---------------------");
+    printf("\n\t Silahkan Periksa Ulang PIN atau Registrasi Terlebih Dahulu!");
+    printf("\n\t==============================================================\n");
+    close();
+    menu_pesan();
 }
 
-void menu_customer(){
+
+void menu_pesan(){
     int menu;
 
     system("cls");
@@ -262,6 +310,7 @@ void menu_customer(){
         printf("Error\n");
     }
 }
+
 
 void genreFilm(){
     int pil;
@@ -384,6 +433,49 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         printf("\n\t Silahkan Masukkan Jam tayang : ");
         scanf("%f", &jamtayang);
 
+        printf("\n\tPilih Seat Yang Tersedia!");
+        printf("\n\t========================================================================");
+        printf("\n\t                         ``````````````````````");
+        printf("\n\t                         ||                  ||");
+        printf("\n\t                         ||      SCREEN      ||");
+        printf("\n\t                         ||                  ||");
+        printf("\n\t                         ||                  ||");
+        printf("\n\t                         ``````````````````````");
+        printf("\n\t========================================================================\n");
+
+        for(int i=0; i<10; i++){
+            printf("\t");
+            for(h=1; h<=20; h++){
+                printf("%c%d ", seat[i], h);//menampilkan daftar pilihan row dan seat
+            }
+            printf("\n\t------------------------------------------------------------------------\n");
+        }
+        printf("\t========================================================================");
+        printf("\n\tPilih Seat (A-J) : ");
+        fflush(stdin);
+        scanf("%c", &huruf_kursi);
+        printf("\n\tAnda memilih seat %c, Selanjutnya silahkan pilih nomor kursi!", huruf_kursi);
+        for(h=0; h<jumlah_tiket; h++){
+            cekkursi:
+            printf("\n\tPilih Nomor kursi ke-%d : ", h+1);
+            while(scanf("%d", &angka_kursi[h])==0 || angka_kursi[h] < 1 || angka_kursi[h] > 20){
+                printf("\t------------------------------------------------------------------------");
+                printf("\n\tNomor Kursi Tidak Tersedia!");
+                printf("\n\tMohon masukkan ulang pilihan");
+                printf("\n\t------------------------------------------------------------------------");
+                printf("\n\tMasukkan Pilihan Anda : ");
+                while((getchar())!='\n');
+            }
+            for(int i=0; i<h; i++){
+                if(angka_kursi[h]==angka_kursi[i]){
+                    printf("\t--------------------------------------------------------------");
+                    printf("\n\tMaaf, Kursi %c-%d telah terisi, silahkan pilih kembali",huruf_kursi, angka_kursi[i]);
+                    printf("\n\t--------------------------------------------------------------");
+                    goto cekkursi;
+                }
+            }
+        }
+
         if (jumlah_tiket > movies[i].stock) {
             printf("\n\t Maaf, stock tiket yang tersedia adalah %d", movies[i].stock);
         } else {
@@ -431,7 +523,7 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     printf("\t| NO |\t\tFILM\t\t|\tJam Tayang\t|    Harga      |\n");
     printf("\t=========================================================================");
     for (int i=0; i<jumlah_tiket; i++){
-    printf("\n\t| %d  |\t%s\t        | \t%.2f          |\t%.2f|", i+1, movie.title, jamtayang, price);
+    printf("\n\t| %d  |\t%s\t        | \t%.2f           |\t%.2f|", i+1, movie.title, jamtayang, price);
     }
     printf("\n\t=========================================================================\n");
     printf("\t| Total Harga : %.2f      \t\t\t\t\t\t|\n",total_harga);
@@ -520,7 +612,4 @@ void keluar() {
     exit(0);
 }
 
-int main() {
-    intro();
-    return 0;
-}
+
