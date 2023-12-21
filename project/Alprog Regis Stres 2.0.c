@@ -21,6 +21,7 @@ void keluar();
 
 float jam1[6]= {0,12.00, 14.00, 16.00, 20.00, 22.00};
 float jam2[6]= {0,12.30, 14.30, 16.30, 20.30, 22.30};
+float jamtayang;
 int hari;
 
 struct customer{
@@ -388,7 +389,8 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         {
             printf("\n\t%.2f \t%.2f \t%.2f \t%.2f \t%.2f ", jam2[1],jam2[2],jam2[3],jam2[4],jam2[5]);
         }
-        printf("\nSilahkan Pilih Jam tayang : ");
+        printf("\n\t Silahkan Masukkan Jam tayang : ");
+        scanf("%f", &jamtayang);
 
         if (jumlah_tiket > movies[i].stock) {
             printf("\n\t Maaf, stock tiket yang tersedia adalah %d", movies[i].stock);
@@ -409,6 +411,7 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     printf("\n\t||            PEMBAYARAN TIKET             ||");
     printf("\n\t=============================================");
     printf("\n\t Film yang anda pesan: %s", movie.title);
+    printf("\n\t Jam tayang : %.2f", jamtayang);
     printf("\n\t Jumlah tiket yang anda pesan: %d", jumlah_tiket);
     printf("\n\t---------------------------------------------");
     printf("\n\t Total harga pembelian tiket adalah Rp %.2lf", total_harga);
