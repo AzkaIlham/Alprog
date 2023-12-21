@@ -1,388 +1,238 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+procedure main():
+    call displayGroupMembers()
+    call showMenu()
 
-void menu();
-void login_admin();
-void menu_admin();
-void riwayat_transaksi();
-void data_customer();
-void regis_customer();
-void login_customer();
-void menu_customer();
-void genreFilm();
-void horor();
-void komedi();
-void romantis();
-void pemesanan();
-void pembayaran();
-void keluar();
+procedure displayGroupMembers():
+    output "=================================================="
+    output "||                Nama Kelompok                 ||"
+    output "=================================================="
+    output "||    1. Putu Satria Arya Putra (2305551122)    ||"
+    output "||    2. Anthony Wisnu Jati     (2305551138)    ||"
+    output "||    3. Azka Ilham Ramadhani   (2305551171)    ||"
+    output "=================================================="
+    output "Enter untuk melanjutkan..."
 
-int hari;
+procedure showMenu():
+    input choice
+    switch choice:
+        case 1:
+            call loginAdmin()
+        case 2:
+            call showCustomerMenu()
+        case 3:
+            call exitProgram()
+        default:
+            output "Error"
 
-struct customer{
-	char nama_cust[50];
-	int pin_cust;
-};
+procedure loginAdmin():
+    input username
+    input password
+    if (username == "admin" and password == "123"):
+        call menuAdmin()
+    else:
+        output "Password atau Username Salah!"
+        output "Tekan Enter untuk Kembali..."
+        wait for Enter key press
+        call showMenu()
 
-struct customer registrasi;
-struct customer login;
-
-typedef struct{
-    int id;
-    char title[50];
-    char genre[20];
-    int stock;
-    float weekday_price;
-    float weekend_price;
-}Movie;
-
-void intro(){
-    system("cls");
-    printf("\n\t==================================================");
-    printf("\n\t||                Nama Kelompok                 ||");
-    printf("\n\t==================================================");
-    printf("\n\t||    1. Putu Satria Arya Putra (2305551122)    ||");
-    printf("\n\t||    2. Anthony Wisnu Jati     (2305551138)    ||");
-    printf("\n\t||    3. Azka Ilham Ramadhani   (2305551171)    ||");
-    printf("\n\t==================================================");
-    printf("\n\tEnter untuk melanjutkan...");
-    while (getchar() != '\n')
-        ;
-    menu();
-}
-
-void menu(){
-    int pil;
-
-    system("cls");
-    printf("\n\t==================================================");
-    printf("\n\t||                Pilihan Masuk                 ||");
-    printf("\n\t==================================================");
-    printf("\n\t||       1. Masuk Sebagai Admin                 ||");
-    printf("\n\t||       2. Regis Sebagai Pelanggan             ||");
-    printf("\n\t||       3. Login Sebagai Pelanggan             ||");
-    printf("\n\t||       4. Exit                                ||");
-    printf("\n\t==================================================");
-    printf("\n\t Masukkan Pilihan Anda: ");
-    scanf("%d", &pil);
-    if(pil==1){
-        login_admin();
-    }
-    else if(pil==2){
-        regis_customer();
-    }
-    else if(pil==2){
-        login_customer();
-    }
-    else if(pil==3){
-        keluar();
-    }
-    else{
-        printf("Error\n");
-    }
-}
-
-void login_admin(){
-    char username [15];
-	char password [15];
-
-	printf("\nMasukkan username: ");
-	scanf("%s", &username);
-	printf("\nMasukkan password: ");
-	fflush(stdin);
-	scanf("%s", &password);
-    if ((strcmp(username, "admin") == 0) && (strcmp(password, "123") ==0)){
-        getchar();
-        printf("\n\n\tTekan Enter untuk melanjutkan...");
-        getchar();
-        system ("cls");
-        menu_admin();
-	}else {
-		printf("\nPassword atau Username Salah!\n");
-        getchar();
-        printf("\nTEKAN ENTER UNTUK KEMBALI");
-        getchar();
-        system ("cls");
-        menu();
-	}
-}
-
-void menu_admin(){
-    int pil;
-	while (pil!=4){
-	system("cls");
-	printf("\n\t==============================================================");
-    printf("\n\t||                 M E T R O P O L E   X X I                ||");
-    printf("\n\t||``````````````````````````````````````````````````````````||");
-    printf("\n\t||                   Tampilan Menu Admin                    ||");
-    printf("\n\t||==========================================================||");
-    printf("\n\t||  [1] Menampilkan riwayat transaksi                       ||");
-    printf("\n\t||----------------------------------------------------------||");
-    printf("\n\t||  [2] Menampilkan data customer                           ||");
-    printf("\n\t||----------------------------------------------------------||");
-    printf("\n\t||  [3] Log out                                             ||");
-    printf("\n\t==============================================================");
-    printf("\n\tMasukkan pilihan Anda [1][2][3] : ");
-    scanf("%d", &pil);
-    switch(pil){
-    	case 1:
-    		{
-    			//riwayat_transaksi();
-    			break;
-			}
-		case 2:
-			{
-				//data_customer();
-				break;
-			}
-			case 3:{
-                menu();
-                break;
-			}
-		default:
-			{
-				printf("Menu tidak tersedia!");
-				break;
-			}
-	}
-
-
-	}
-}
-
-void regis_customer(){
-    int i;
-    struct customer cust01;
-	FILE *regis = fopen("DataCustomer.txt", "a+");
-
-	printf("\n\t=========================::::::::::::::::=====================\n");
-    printf("\n\t||                    -- MENU REGISTRASI --                 ||\n");
-    printf("\n\t=========================::::::::::::::::=====================\n");
-    printf("\n\tMasukkan username : ");
-    scanf("%d", registrasi.nama_cust);
-	fflush(stdin);
-
-	//Mengecek data customer dalam file DataCustomer.txt
-	while (!feof(regis)){
-		//membaca data customer dalam file DataCustomer.txt
-		fscanf(regis, "%[^#]#%d\n", &cust01.nama_cust, &cust01.pin_cust);
-		fflush(stdin);
-
-		//mengecek apakah username yang diinputkan sudah pernah terdaftar sebelumnya. Apabila sudah, customer akan diminta menginputkan username baru.
-		if (strcmp(cust01.nama_cust, registrasi.nama_cust)==0){
-            printf("\n\t -- username sudah terdaftar. Coba gunakan username lainnya -- ");
-            printf("\n\t==============================================================\n");
-            fclose(regis);
-			printf("\n\n\tTekan Enter untuk melanjutkan...");
-            getchar();
-			regis_customer();
-			break;
-		}
-	}
-	//ketika username yang diinputkan belum pernah terdaftar, maka program akan lanjut meminta inputan PIN
-    fflush(stdin);
-    printf("\n\tMasukkan PIN : ");
-	while(scanf("%d", &registrasi.pin_cust)==0 || registrasi.pin_cust < 0){
-        printf("\t--------------------------------------------------------------");
-        printf("\n\tAngka yang Anda inputkan salah!");
-        printf("\n\tMohon inputkan angka yang benar...");
-        printf("\n\t--------------------------------------------------------------");
-        printf("\n\tMasukkan PIN : ");
-        while((getchar())!='\n');
-    }
-    fprintf(regis, "%s#%d\n", registrasi.nama_cust, registrasi.pin_cust);
-    fclose(regis);
-
-    printf("\n\t\tRegistrasi dengan username %s berhasil!", registrasi.nama_cust);
-    printf("\n\t --------------------------------------------------------------\n");
-    close();
-    login_customer();
-}
-
-void login_customer(){
-
-}
-
-void menu_customer(){
-    int menu;
-
-    system("cls");
-    printf("\n\t===============================================");
-    printf("\n\t||        SELAMAT DATANG DIBIOSKOP TI        ||");
-    printf("\n\t===============================================");
-    printf("\n\t||               Tampilan Menu               ||");
-    printf("\n\t===============================================");
-    printf("\n\t||  1. Menu Pemesanan Tiket                  ||");
-    printf("\n\t||  2. Exit                                  ||");
-    printf("\n\t===============================================");
-    printf("\n\t Masukkan Pilihan Anda: ");
-    scanf("%d", &menu);
-    if(menu==1){
-        genreFilm();
-    }
-    else if(menu==2){
-        keluar();
-    }
-    else{
-        printf("Error\n");
-    }
-}
-
-void genreFilm(){
-    int pil;
-    system("cls");
-    printf("\n\t\t=========================");
-    printf("\n\t\t||     Genre Film      ||");
-    printf("\n\t\t=========================");
-    printf("\n\t\t||   1. Horor          ||");
-    printf("\n\t\t||   2. Komedi         ||");
-    printf("\n\t\t||   3. Romantis       ||");
-    printf("\n\t\t=========================");
-    printf("\n\t\t Masukkan Pilihan Genre Film Anda: ");
-    scanf("%d", &pil);
-    if(pil==1){
-        horor();
-    }
-    else if(pil==2){
-        komedi();
-    }
-    else if(pil==3){
-        romantis();
-    }
-    else{
-        printf("\n\tMasukkan Pilihan Yang Benar");
-    }
-}
-
-void horor(){
-    Movie movies[] = {
-        {1, "Conjuring", "Horor", 50, 80000, 90000},
-        {2, "Annabelle Creation", "Horor", 30, 85000, 100000},
-        {3, "The Ring", "Horor", 20, 90000, 110000},
-    };
-    pemesanan(movies, 3);
-}
-
-void komedi(){
-    Movie movies[] = {
-        {4, "Friends", "Komedi", 100, 60000, 65000},
-        {5, "Modern Family", "Komedi", 70, 70000, 80000},
-        {6, "Curb Your Enthusiasm", "Komedi", 40, 65000, 75000},
-    };
-    pemesanan(movies, 3);
-}
-
-void romantis(){
-    Movie movies[] = {
-        {7, "Pride and Prejudice", "Romantis", 60, 70000, 80000},
-        {8, "Love Actually", "Romantis", 40, 75000, 85000},
-        {9, "When Harry Met Sally", "Romantis", 50, 80000, 90000},
-    };
-    pemesanan(movies, 3);
-}
-
-void pemesanan(Movie movies[], int jumlah_movie) {
-    int id_movie, jumlah_tiket, hari, i;
-    int cari = 0;
-    double price;
-    struct tm *local;
-    time_t now;
-    now = time(NULL);
-    local = localtime(&now);
-    system("cls");
-    printf("\n\t=====================================================================================================");
-    printf("\n\t||                                Daftar Film yang Tayang                                          ||");
-    printf("\n\t=====================================================================================================");
-    printf("\n\t ID \t| Title \t\t| Genre \t| Stock \t| Price Weekday | Price Weekend");
-    printf("\n\t-----------------------------------------------------------------------------------------------------");
-    for (i = 0; i < jumlah_movie; i++) {
-        printf("\n\t %-2d \t| %-20s \t| %-10s \t| %-7d \t| %-12.2lf \t| %-12.2lf", movies[i].id, movies[i].title, movies[i].genre, movies[i].stock, movies[i].weekday_price, movies[i].weekend_price);
-    }
-    printf("\n\t Silahkan pilih ID film yang akan dipesan: ");
-    scanf("%d", &id_movie);
-    for (i = 0; i < jumlah_movie; i++) {
-        if (movies[i].id == id_movie) {
-            cari = 1;
-            break;
-        }
-    }
-
-    hari = local->tm_wday;
-    if(hari==0){
-        printf("\n\t Hari minggu");
-    }else if(hari==1){
-        printf("\n\t Hari senin");
-    }else if(hari==2){
-        printf("\n\t Hari selasa");
-    }else if(hari==3){
-        printf("\n\t Hari rabu");
-    }else if(hari==4){
-        printf("\n\t Hari kamis");
-    }else if(hari==5){
-        printf("\n\t Hari jumat");
-    }else {
-        printf("\n\t Hari sabtu");
-    }
-    printf(" adalah hari ke %d/%d/%d", local->tm_mday, local->tm_mon+1, local->tm_year+1900);
-
-    if (cari == 1) {
-        switch (hari) {
-            case 0:
-            case 6:
-                price = movies[i].weekend_price;
-                break;
+procedure menuAdmin():
+    repeat:
+        output "=============================================================="
+        output "||                   Tampilan Menu Admin                    ||"
+        output "||==========================================================||"
+        output "||  [1] Menampilkan riwayat transaksi                       ||"
+        output "||----------------------------------------------------------||"
+        output "||  [2] Log out                                             ||"
+        output "=============================================================="
+        output "Masukkan pilihan Anda [1][2][3] : "
+        input choice
+        switch choice:
+            case 1:
+                call displayTransactionHistory()
+            case 2:
+                call showMenu()
             default:
-                price = movies[i].weekday_price;
-                break;
-        }
-        printf("\n\t Film yang Anda pilih adalah '%s'. Harga tiketnya adalah Rp %.2lf", movies[i].title, price);
-        printf("\n\t Berapa jumlah tiket yang ingin Anda pesan: ");
-        scanf("%d", &jumlah_tiket);
-        if (jumlah_tiket > movies[i].stock) {
-            printf("\n\t Maaf, stock tiket yang tersedia adalah %d", movies[i].stock);
-        } else {
-            movies[i].stock -= jumlah_tiket;
-            pembayaran(movies[i], jumlah_tiket, price);
-        }
-    } else {
-        printf("\n\t Maaf, ID film yang Anda masukkan tidak valid! ");
-    }
-}
+                output "Menu tidak tersedia!"
 
-void pembayaran(Movie movie, int jumlah_tiket, double price) {
-    double total_harga = price * jumlah_tiket;
-    double uang_bayar;
-    system("cls");
-    printf("\n\t=============================================");
-    printf("\n\t||            PEMBAYARAN TIKET             ||");
-    printf("\n\t=============================================");
-    printf("\n\t Film yang anda pesan: %s", movie.title);
-    printf("\n\t Jumlah tiket yang anda pesan: %d", jumlah_tiket);
-    printf("\n\t---------------------------------------------");
-    printf("\n\t Total harga pembelian tiket adalah Rp %.2lf", total_harga);
-    printf("\n\t---------------------------------------------");
-    printf("\n\t Silahkan masukkan jumlah uang yang akan Anda bayarkan: ");
-    scanf("%lf", &uang_bayar);
+procedure displayTransactionHistory():
+    open "RiwayatTransaksi.txt" file
+    read and output content of the file
+    close file
+    output "Apakah Mau kembali ke menu admin ? (Y/N) : "
+    input decision
+    if (decision == "Y" or decision == "y"):
+        call menuAdmin()
+    else:
+        call exitProgram()
 
-    if (uang_bayar < total_harga) {
-        printf("\n\t Maaf, uang yang Anda masukkan tidak cukup untuk membayar tiket! ");
-    } else {
-        double kembalian = uang_bayar - total_harga;
-        printf("\n\t Terima kasih atas pemesanan Anda! Tiket yang Anda pesan telah berhasil dipesan. ");
-        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian);
-    }
-}
+procedure showCustomerMenu():
+    output "=============================================================="
+    output "||                        SELAMAT DATANG                    ||"
+    output "||==========================================================||"
+    output "||  [1] Registrasi                                          ||"
+    output "||----------------------------------------------------------||"
+    output "||  [2] Login                                               ||"
+    output "||----------------------------------------------------------||"
+    output "||  [3] Exit                                                ||"
+    output "=============================================================="
+    output "Masukkan Pilihan Anda : "
+    input choice
+    if (choice == 1):
+        call registerCustomer()
+    elif (choice == 2):
+        call loginCustomer()
+    elif (choice == 3):
+        call exitProgram()
+    else:
+        output "Angka yang Anda inputkan salah!"
+        output "Mohon inputkan pilihan yang benar..."
+        output "Masukkan pilihan Anda: "
+        repeat:
+            input choice
+        until (choice is a valid option)
+        call showCustomerMenu()
 
-void keluar() {
-    printf("\n\t Terima Kasih Telah Menggunakan Sistem Pemesanan Tiket di Bioskop TI ");
-    printf("\n\t Selamat Datang Kembali! ");
-    getchar();
-    exit(0);
-}
+procedure registerCustomer():
+    open "DataCustomer.txt" file for append
+    input username
+    while (username already exists in the file):
+        output "username sudah terdaftar. Coba gunakan username lainnya"
+        input new username
+    input PIN
+    write username and PIN to the file
+    close file
+    output "Registrasi berhasil!"
+    call loginCustomer()
 
-int main() {
-    intro();
-    return 0;
-}
+procedure loginCustomer():
+    open "DataCustomer.txt" file for read
+    input username
+    input PIN
+    while (not end of file):
+        read username and PIN from the file
+        if (username and PIN match):
+            output "Login berhasil"
+            call menuOrder()
+    close file
+    output "Login gagal. Silahkan periksa username dan PIN Anda."
+    call showCustomerMenu()
+
+procedure menuOrder():
+    output "==============================================="
+    output "||        SELAMAT DATANG DIBIOSKOP TI        ||"
+    output "==============================================="
+    output "||               Tampilan Menu               ||"
+    output "==============================================="
+    output "||  1. Menu Pemesanan Tiket                  ||"
+    output "||  2. Exit                                  ||"
+    output "==============================================="
+    output "Masukkan Pilihan Anda: "
+    input choice
+    if (choice == 1):
+        call chooseMovieGenre()
+    elif (choice == 2):
+        call exitProgram()
+    else:
+        output "Error"
+
+procedure chooseMovieGenre():
+    output "========================="
+    output "||     Genre Film      ||"
+    output "========================="
+    output "||   1. Horor          ||"
+    output "||   2. Komedi         ||"
+    output "||   3. Romantis       ||"
+    output "========================="
+    output "Masukkan Pilihan Genre Film Anda: "
+    input genre
+    if (genre == 1):
+        call displayHorrorMovies()
+    elif (genre == 2):
+        call displayComedyMovies()
+    elif (genre == 3):
+        call displayRomanticMovies()
+    else:
+        output "Masukkan Pilihan Yang Benar"
+
+procedure displayHorrorMovies():
+    define array of horror movies
+    call displayMovieList(horror movies)
+
+procedure displayComedyMovies():
+    define array of comedy movies
+    call displayMovieList(comedy movies)
+
+procedure displayRomanticMovies():
+    define array of romantic movies
+    call displayMovieList(romantic movies)
+
+procedure displayMovieList(movies):
+    output "====================================================================================================="
+    output "||                                Daftar Film yang Tayang                                          ||"
+    output "====================================================================================================="
+    output " ID \t| Title \t\t| Genre \t| Stock \t| Price Weekday | Price Weekend"
+    output "-----------------------------------------------------------------------------------------------------"
+    for each movie in movies:
+        output movie details
+    output "Silahkan pilih ID film yang akan dipesan: "
+    input movieID
+    if (movieID is valid):
+        call performTicketReservation(selected movie)
+    else:
+        output "Maaf, ID film yang Anda masukkan tidak valid!"
+
+procedure performTicketReservation(selectedMovie):
+    determine current day
+    determine movie price based on current day
+    output "Film yang Anda pilih adalah '{selectedMovie.title}'. Harga tiketnya adalah Rp {selectedMovie.price}"
+    output "Berapa jumlah tiket yang ingin Anda pesan: "
+    input ticketQuantity
+    if (ticketQuantity > selectedMovie.stock):
+        output "Maaf, stock tiket yang tersedia adalah {selectedMovie.stock}"
+    else:
+        reduce selectedMovie.stock by ticketQuantity
+        call selectShowTime(selectedMovie, ticketQuantity)
+
+procedure selectShowTime(selectedMovie, ticketQuantity):
+    output "Daftar jam tayang:"
+    if (selectedMovie.price is weekday price):
+        output show weekday show times
+    else:
+        output show weekend show times
+    output "Silahkan Masukkan Jam tayang : "
+    input selectedShowTime
+    call selectSeats(selectedMovie, ticketQuantity, selectedShowTime)
+
+procedure selectSeats(selectedMovie, ticketQuantity, selectedShowTime):
+    define array of available seats
+    call displaySeatMap()
+    output "Silahkan pilih nomor kursi (pisahkan dengan koma jika lebih dari satu): "
+    input selectedSeats
+    if (selectedSeats are available):
+        call confirmReservation(selectedMovie, ticketQuantity, selectedShowTime, selectedSeats)
+    else:
+        output "Maaf, kursi yang Anda pilih tidak tersedia. Silakan pilih kursi lain."
+        call selectSeats(selectedMovie, ticketQuantity, selectedShowTime)
+
+procedure displaySeatMap():
+    output "Diagram Kursi Bioskop"
+
+procedure confirmReservation(selectedMovie, ticketQuantity, selectedShowTime, selectedSeats):
+    output "Ringkasan Pemesanan:"
+    output "Film: {selectedMovie.title}"
+    output "Tanggal dan Jam: {selectedShowTime}"
+    output "Jumlah Tiket: {ticketQuantity}"
+    output "Nomor Kursi: {selectedSeats}"
+    output "Harga Total: Rp {ticketQuantity * selectedMovie.price}"
+    output "Apakah Anda yakin ingin melanjutkan pemesanan? (Y/N): "
+    input confirmation
+    if (confirmation == "Y" or confirmation == "y"):
+        write reservation details to "TransactionHistory.txt"
+        output "Pemesanan berhasil! Terima kasih."
+        call menuOrder()
+    else:
+        call menuOrder()
+
+procedure exitProgram():
+    output "Terima kasih telah menggunakan layanan kami. Sampai jumpa!"
+    exit program
