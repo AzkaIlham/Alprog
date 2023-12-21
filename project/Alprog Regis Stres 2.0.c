@@ -540,10 +540,10 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
             fprintf(insert,"\n\t|\t METROPOLE XXI\t\t|");
             fprintf(insert,"\n\t=================================");
             fprintf(insert,"\n\t|\t%s\t|", movie.title);
-            // fprintf(insert,"\n\t| studio: %d\t\t\t|",film);
+            fprintf(insert,"\n\t| studio: %d\t\t\t|",film);
             fprintf(insert,"\n\t| date  : %d/%d/%d \t\t|",local->tm_mday, local->tm_mon+1, local->tm_year+1900);
             fprintf(insert,"\n\t| time  : %.2f\t\t\t|",jamtayang);
-            // fprintf(insert,"\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
+            fprintf(insert,"\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
             fprintf(insert,"\n\t| price : %.3f \t\t|", price);
             fprintf(insert,"\n\t=================================");
             fclose(insert);
@@ -554,10 +554,10 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
             fprintf(file,"\n\t|\t METROPOLE XXI\t\t|");
             fprintf(file,"\n\t=================================");
             fprintf(file,"\n\t|\t%s\t|", movie.title);
-            // fprintf(file,"\n\t| studio: %d\t\t\t|",film);
+            fprintf(file,"\n\t| studio: %d\t\t\t|",film);
             fprintf(file,"\n\t| date  : %d/%d/%d \t\t|",local->tm_mday, local->tm_mon+1, local->tm_year+1900);
             fprintf(file,"\n\t| time  : %.2f\t\t\t|",jamtayang);
-            // fprintf(file,"\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
+            fprintf(file,"\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
             fprintf(file,"\n\t| price : %.3f \t\t|", price);
             fprintf(file,"\n\t=================================");
             fclose(file);
@@ -566,10 +566,10 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
             printf("\n\t|\t METROPOLE XXI\t\t|");
             printf("\n\t=================================");
             printf("\n\t|\t%s\t|", movie.title);
-            // printf("\n\t| studio: %d\t\t\t|",film);
+            printf("\n\t| studio: %d\t\t\t|",film);
             printf("\n\t| date  : %d/%d/%d \t\t|",local->tm_mday, local->tm_mon+1, local->tm_year+1900);
             printf("\n\t| time  : %.2f\t\t\t|",jamtayang);
-            // printf("\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
+            printf("\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
             printf("\n\t| price : %.3f \t\t|", price);
             printf("\n\t=================================");
 
