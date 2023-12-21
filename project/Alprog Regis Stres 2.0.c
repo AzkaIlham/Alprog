@@ -416,16 +416,28 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     printf("\n\t---------------------------------------------");
     printf("\n\t Total harga pembelian tiket adalah Rp %.2lf", total_harga);
     printf("\n\t---------------------------------------------");
-    printf("\n\t Silahkan masukkan jumlah uang yang akan Anda bayarkan: ");
-    scanf("%lf", &uang_bayar);
+    do
+    {
+        printf("\n\t Silahkan masukkan jumlah uang yang akan Anda bayarkan: ");
+        scanf("%lf", &uang_bayar);
 
-    if (uang_bayar < total_harga) {
-        printf("\n\t Maaf, uang yang Anda masukkan tidak cukup untuk membayar tiket! ");
-    } else {
-        double kembalian = uang_bayar - total_harga;
-        printf("\n\t Terima kasih atas pemesanan Anda! Tiket yang Anda pesan telah berhasil dipesan. ");
-        printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian);
+        if (uang_bayar < total_harga) {
+            printf("\n\t Maaf, uang yang Anda masukkan tidak cukup untuk membayar tiket! ");
+        } else {
+            double kembalian = uang_bayar - total_harga;
+            printf("\n\t Terima kasih atas pemesanan Anda! Tiket yang Anda pesan telah berhasil dipesan. ");
+            printf("\n\t Uang kembalian Anda adalah Rp %.2lf", kembalian);
     }
+    } while (uang_bayar < total_harga);
+
+    printf("\n\t================================================================\n");
+    printf("\t| NO |\t\tFILM\t\t|\tJam Tayang\t|\tHarga  |\n");
+    printf("\t================================================================");
+    for (int i=0; i<jumlah_tiket; i++){
+        printf("\n\t| %d  |\t%s\t|\t%.2f|\t%d |", i+1, movie.title, jamtayang, price);
+    }
+
+
 }
 
 void keluar() {
