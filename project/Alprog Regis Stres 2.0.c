@@ -51,8 +51,7 @@ void intro(){
     printf("\n\t||    3. Azka Ilham Ramadhani   (2305551171)    ||");
     printf("\n\t==================================================");
     printf("\n\tEnter untuk melanjutkan...");
-    while (getchar() != '\n')
-        ;
+    while (getchar() != '\n');
     menu();
 }
 
@@ -121,24 +120,17 @@ void menu_admin(){
     printf("\n\t||==========================================================||");
     printf("\n\t||  [1] Menampilkan riwayat transaksi                       ||");
     printf("\n\t||----------------------------------------------------------||");
-    printf("\n\t||  [2] Menampilkan data customer                           ||");
-    printf("\n\t||----------------------------------------------------------||");
-    printf("\n\t||  [3] Log out                                             ||");
+    printf("\n\t||  [2] Log out                                             ||");
     printf("\n\t==============================================================");
     printf("\n\tMasukkan pilihan Anda [1][2][3] : ");
     scanf("%d", &pil);
     switch(pil){
     	case 1:
     		{
-    			//riwayat_transaksi();
+    			riwayat_transaksi();
     			break;
 			}
-		case 2:
-			{
-				//data_customer();
-				break;
-			}
-			case 3:{
+			case 2:{
                 menu();
                 break;
 			}
@@ -300,25 +292,25 @@ void genreFilm(){
 void horor(){
     Movie movies[] = {
         {1, "Conjuring", "Horor", 50, 80000, 90000},
-        {2, "Annabelle Creation", "Horor", 30, 85000, 100000},
-        {3, "The Ring", "Horor", 20, 90000, 110000},
+        {2, "Annabelle Creation", "Horor", 50, 85000, 100000},
+        {3, "The Ring", "Horor", 50, 90000, 110000},
     };
     pemesanan(movies, 3);
 }
 
 void komedi(){
     Movie movies[] = {
-        {4, "Friends", "Komedi", 100, 60000, 65000},
-        {5, "Modern Family", "Komedi", 70, 70000, 80000},
-        {6, "Curb Your Enthusiasm", "Komedi", 40, 65000, 75000},
+        {4, "Friends", "Komedi", 50, 60000, 65000},
+        {5, "Modern Family", "Komedi", 50, 70000, 80000},
+        {6, "Curb Your Enthusiasm", "Komedi", 50, 65000, 75000},
     };
     pemesanan(movies, 3);
 }
 
 void romantis(){
     Movie movies[] = {
-        {7, "Pride and Prejudice", "Romantis", 60, 70000, 80000},
-        {8, "Love Actually", "Romantis", 40, 75000, 85000},
+        {7, "Pride and Prejudice", "Romantis", 50, 70000, 80000},
+        {8, "Love Actually", "Romantis", 50, 75000, 85000},
         {9, "When Harry Met Sally", "Romantis", 50, 80000, 90000},
     };
     pemesanan(movies, 3);
@@ -444,7 +436,7 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     printf("\n\t=========================================================================\n");
     printf("\t| Total Harga : %.2f      \t\t\t\t\t\t|\n",total_harga);
     printf("\t=========================================================================");
-    
+
     printf("\n\tSimpan Tiket (Y/N)?  ");
     fflush(stdin);
     scanf("%c", &cetak );
@@ -488,9 +480,36 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
             // printf("\n\t| row   : %c  seat : %d\t\t|", huruf_kursi, angka_kursi[i]);
             printf("\n\t| price : %.3f \t\t|", price);
             printf("\n\t=================================");
-            
+
 
         }
+    }
+}
+
+void riwayat_transaksi(){
+    char pilih;
+    system("cls");
+    char buff[255];
+    FILE *header;
+    printf("\n\t==============================================================\n");
+    printf("\n\t||                   Riwayat Transaksi                      ||");
+    printf("\n\t==============================================================");
+    if ((header = fopen("RiwayatTransaksi.txt","r")) == NULL){
+        printf("\n\tError: File tidak ada!");
+    }
+
+    while(fgets(buff, sizeof(buff), header)){
+        printf("%s", buff);
+    }
+
+    fclose(header);
+    printf("\nApakah Mau kembali ke menu admin ? (Y/N) : ");
+    fflush(stdin);
+    scanf("%c", &pilih);
+    if(pilih=="Y"||pilih=="y"){
+        menu_admin();
+    }else{
+        keluar();
     }
 }
 
