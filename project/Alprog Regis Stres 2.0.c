@@ -430,11 +430,11 @@ void pembayaran(Movie movie, int jumlah_tiket, double price) {
     }
     } while (uang_bayar < total_harga);
 
-    printf("\n\t================================================================\n");
-    printf("\t| NO |\t\tFILM\t\t|\tJam Tayang\t|\tHarga  |\n");
-    printf("\t================================================================");
+    printf("\n\t=========================================================================\n");
+    printf("\t| NO |\t\tFILM\t\t|\tJam Tayang\t|    Harga      |\n");
+    printf("\t=========================================================================");
     for (int i=0; i<jumlah_tiket; i++){
-        printf("\n\t| %d  |\t%s\t|\t%.2f|\t%d |", i+1, movie.title, jamtayang, price);
+    printf("\n\t| %d  |\t%s\t        | \t%.2f          |\t%.2f|", i+1, movie.title, jamtayang, price);
     }
 
 
