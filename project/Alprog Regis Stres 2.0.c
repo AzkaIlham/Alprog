@@ -430,8 +430,28 @@ void pemesanan(Movie movies[], int jumlah_movie) {
         {
             printf("\n\t%.2f \t%.2f \t%.2f \t%.2f \t%.2f ", jam2[1],jam2[2],jam2[3],jam2[4],jam2[5]);
         }
-        printf("\n\t Silahkan Masukkan Jam tayang : ");
-        scanf("%f", &jamtayang);
+
+            // Mendapatkan Waktu saat ini
+            time_t rawtime;
+            struct tm *currentTime;
+            time(&rawtime);
+            currentTime = localtime(&rawtime);
+
+            //menghitung waktu jam tayang pada sistem
+            float currentHour = currentTime->tm_hour + (currentTime->tm_min / 60.0);
+        do
+        {
+            printf("\n\t Silahkan Masukkan Jam tayang : ");
+            scanf("%f", &jamtayang);
+
+            // membandingkan waktu jam tayang dengan jam pada sistem 
+            if (currentHour > jamtayang)
+            {
+                printf("\n\tMaaf jam tayang Sudah Lewat, Silahkan Pilih Jam Tayang Yang lain\n");
+            }
+
+        } while (currentHour > jamtayang);
+
 
         printf("\n\tPilih Seat Yang Tersedia!");
         printf("\n\t========================================================================");
@@ -611,5 +631,3 @@ void keluar() {
     getchar();
     exit(0);
 }
-
-
